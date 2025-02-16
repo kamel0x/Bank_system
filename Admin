@@ -1,0 +1,79 @@
+#include <iostream>
+#include <vector>
+#include <regex>
+#include ""  
+using namespace std;
+// melad magdy
+class Admin : public Employee {
+public:
+    
+    Admin(int id, string name, string password, double salary)
+        : Employee(id, name, password, salary) {}
+
+    
+    void addEmployee(vector<Employee>& employees, const Employee& newEmployee) {
+        employees.push_back(newEmployee);
+        cout << "added successfully" << endl ;
+    }
+
+    
+    Employee* searchEmployee(vector<Employee>& employees, int id) {
+        for (auto& emp : employees) {
+            if (emp.getId() == id) {
+                return &emp;
+            }
+        }
+        cout << " not found" << endl ;
+        return nullptr;
+    }
+
+    
+    void editEmployee(vector<Employee>& employees, int id, string newName, string newPassword, double newSalary) {
+        Employee* emp = searchEmployee(employees, id);
+        if (emp) {
+            if (validateName(newName)) {
+                emp->setName(newName);
+            } else {
+                cout << "Name must be between 5 and 20 " << endl ;
+            }
+
+            if (validatePassword(newPassword)) {
+                emp->setPassword(newPassword);
+            } else {
+                cout << "Password must be between 8 and 20 " << endl ;
+            }
+
+            if (newSalary >= 5000) {
+                emp->setSalary(newSalary);
+            } else {
+                cout << "Salary must be 5000 or higher" << endl ;
+            }
+
+            cout << "Employee details updated successfully" << endl ;
+        } else {
+            cout << "Cannot edit a non-existent employee" << endl ;
+        }
+    }
+
+    
+    void listEmployees(const vector<Employee>& employees) {
+        if (employees.empty()) {
+            cout << "No employees to display" << endl ;
+            return;
+        }
+        cout << "Employee List: " << endl ;
+        for (const auto& emp : employees) {
+            emp.display();
+        }
+    }
+
+private:
+    
+    bool validateName(const string& name) {
+        return name.length() >= 5 && name.length() <= 20 && regex_match(name, regex("^[A-Za-z]+$"));
+    }
+
+    bool validatePassword(const string& password) {
+        return password.length() >= 8 && password.length() <= 20;
+    }
+};

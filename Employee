@@ -1,0 +1,217 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+//Ahmed essam
+class Client{
+public:
+    int id;
+    string name;
+    double salary;
+
+    void displayInfo(){
+        cout<< "Client ID: "<<id <<",Name: " <<name << ",Salary: "<<salary<<endl;
+    }
+};
+
+class Employee{
+private:
+    int id;
+    string name;
+    string password;
+    double salary;
+    vector<Client>clients;
+    int clientCount =0;
+
+public:
+    void setId(int newId){
+        id =newId;
+    }
+    void setName(const string& newName){
+        if(newName.length() >=5&&newName.length() <=20&&isAlpha(newName)){
+            name =newName;
+        } else{
+            cout<< "Name must be between 5 and 20 characters"<<endl;
+        }
+    }
+    void setPassword(const string& newPassword){
+        if (newPassword.length() >=8&&newPassword.length() <=20){
+            password = newPassword;
+        } else {
+            cout<< "Password must be between 8 and 20 characters"<<endl;
+        }
+    }
+    void setSalary(double newSalary){
+        if (newSalary >= 5000){
+            salary =newSalary;
+        }else{
+            cout<< "Salary must be at least 5000"<<endl;
+        }
+    }
+    bool login(int inputId, const string& inputPassword) {
+        return (inputId == id && inputPassword == password);
+    }
+    void displayEmployeeInfo() {
+        cout << "Employee ID: " << id << ", Name: " << name << ", Salary: " << salary << endl;
+    }
+    void size_Clients(int size){
+        clients.resize(size);
+    }
+    bool isAlpha(const string& str){
+        int i =0;
+        while (i <str.length()){
+            if (!isalpha(str[i])){
+                return false;
+            }
+            i++;
+        }
+        return true;
+    }
+    void addClient(){
+        if(clientCount <clients.size()){
+            cout<< "Enter client ID: ";
+            cin>>clients[clientCount].id;
+            cout<< "Enter client Name: ";
+            cin>>clients[clientCount].name;
+            if(!isAlpha(clients[clientCount].name)||clients[clientCount].name.length() <5||clients[clientCount].name.length()>20){
+                cout<< "Name must be between 5 and 20 characters" <<endl;
+                return;
+            }
+            cout<< "Enter client Salary: ";
+            cin>>clients[clientCount].salary;
+            if(clients[clientCount].salary < 5000){
+                cout<< "Salary must be at least 5000" <<endl;
+                return;
+            }
+            clientCount++;
+            cout<< "Client added successfull"<<endl;
+        } else{
+            cout<< "Client list is full"<<endl;
+        }
+    }
+    void listClients(){
+        if (clientCount ==0){
+            cout<< "No clients available"<<endl;
+            return;
+        }
+        for(int i =0;i <clientCount;i++){
+            clients[i].displayInfo();
+        }
+    }
+    void editClient(int clientId){
+        for (int i =0;i <clientCount;i++){
+            if (clients[i].id ==clientId){
+                cout<< "Editing Client with ID: "<<clientId <<endl;
+                cout<< "Enter new name: ";
+                cin>> clients[i].name;
+                if(!isAlpha(clients[i].name)||clients[i].name.length()<5||clients[i].name.length()>20){
+                    cout << "Name must be between 5 and 20 characters" <<endl;
+                    return;
+                }
+                cout<< "Enter new salary: ";
+                cin>> clients[i].salary;
+                if(clients[i].salary <5000){
+                    cout<< "Salary must be at least 5000"<<endl;
+                    return;
+                }
+
+                cout << "Client updated successfull"<<endl;
+                return;
+            }
+        }
+        cout<< "Client ID: "<<clientId << " not found"<<endl;
+    }
+    void searchClient(int clientId){
+        for(int i =0;i <clientCount;i++){
+            if(clients[i].id ==clientId){
+                cout<< "Client found:"<<endl;
+                clients[i].displayInfo();
+                return;
+            }
+        }
+        cout<< "Client ID: "<<clientId << " not found"<<endl;
+    }
+};
+int main(){
+    Employee emp;
+    int empId;
+    string empName, empPassword;
+    double empSalary;
+
+    cout<< "Enter Employee ID: ";
+    cin>>empId;
+    emp.setId(empId);
+
+    cout<< "Enter Employee Name: ";
+    cin>>empName;
+    emp.setName(empName);
+
+    cout<< "Enter Employee Password: ";
+    cin>>empPassword;
+    emp.setPassword(empPassword);
+
+    cout<< "Enter Employee Salary: ";
+    cin>>empSalary;
+    emp.setSalary(empSalary);
+    int id;
+    string password;
+    cout<< "Enter ID to login: ";
+    cin>>id;
+    cout<< "Enter Password: ";
+    cin>>password;
+
+    if(emp.login(id, password)){
+        cout<< "Login successful"<<endl;
+        emp.displayEmployeeInfo();
+
+        int clientCount;
+        cout<< "How many clients want to add?";
+        cin>>clientCount;
+        emp.size_Clients(clientCount);
+        bool access=true;
+        while (access){
+            cout<< "\nMenu Options:"<<endl;
+            cout<< "1.Add Client"<<endl;
+            cout<< "2.List Clients"<<endl;
+            cout<< "3.Edit Client"<<endl;
+            cout<< "4.Search Client by ID"<<endl;
+            cout<< "5.Exit" << endl;
+            cout<< "Enter your choice: ";
+            int choice;
+            cin>>choice;
+            switch(choice){
+                case 1:
+                    emp.addClient();
+                    break;
+                case 2:
+                    emp.listClients();
+                    break;
+                case 3: {
+                    int clientIdToEdit;
+                    cout<< "Enter the ID of the client to edit: ";
+                    cin>>clientIdToEdit;
+                    emp.editClient(clientIdToEdit);
+                    break;
+                }
+                case 4: {
+                    int clientIdToSearch;
+                    cout<< "Enter the ID of the client to search: ";
+                    cin>>clientIdToSearch;
+                    emp.searchClient(clientIdToSearch);
+                    break;
+                }
+                case 5:
+                    access=false;
+                    cout<< "Exiting the system"<<endl;
+                    break;
+                default:
+                    cout<< "please try again"<<endl;
+                    break;
+            }
+        }
+    } else{
+        cout<< "Invalid ID or password"<<endl;
+    }
+
+    return 0;
+}

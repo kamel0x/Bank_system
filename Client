@@ -1,0 +1,244 @@
+#include <iostream>
+
+using namespace std;
+//kamal bahaa 
+class client{
+protected :
+    int id;
+    string password;
+    string name;
+    double balance;
+public :
+    client(){
+    id =0;
+    balance=0;
+    }
+    void set_id (int id){
+    this ->id=id;
+    }
+    void set_password(string password){
+    this ->password=password;
+    }
+    void set_name(string name){
+    this -> name=name;
+    }
+    void set_balance(double balance){
+    this ->balance=balance;
+    }
+    int get_id(){
+    return id;
+    }
+    string get_password(){
+    return password;
+    }
+    string get_name(){
+    return name;
+    }
+    double get_balance(){
+    return balance;
+    }
+
+    void login(){
+    string input_password;
+    string input_name;
+    int count =3;
+    for (int i=0;i<3;i++){
+
+    cout<<"enter ur password : ";
+
+    cin>>input_password;
+
+    cout<<"enter ur name : ";
+
+    cin>>input_name;
+
+    if (input_password == get_password()&& input_name ==get_name()){
+
+        cout <<"welcom "<<name<<endl;
+        break;
+            }
+    if (input_password != get_password()&& input_name !=get_name()){
+
+        cout <<"wrong id & name "<<endl;
+
+            }
+    else if (input_password !=get_password() ) {
+        cout <<"wrong password "<<endl;
+    }
+    else if (input_name != get_name() ) {
+        cout <<"wrong name "<<endl;
+    }
+
+    count =count-1;
+    cout<<"Number of attempts remaining is : "<<count<<endl;
+    if (i == 2){
+        cout <<"Your card is blocked. Please contact support."<<endl;
+    }
+
+    }
+
+
+    }
+    void deposit(double amount){
+    cout<<"ur balance before deposit is : "<<this->balance<<endl;
+    balance=balance+amount;
+    cout<<"u deposited an amount of : "<<amount<<endl;
+    cout<<"ur balance after deposit is : "<<this->balance<<endl;
+    }
+    void withdraw(double amount){
+    cout<<"ur balance before withdraw is : "<<this->balance<<endl;
+    balance=balance-amount;
+    cout<<"u withdraw an amount of : "<<amount<<endl;
+    cout<<"ur balance after withdraw is : "<<this->balance<<endl;
+    }
+    void transferTo(double amount,client& recipient){
+     if (amount > balance) {
+        cout << "Insufficient balance! Transfer failed." << endl;
+    } else {
+        balance -= amount;
+        recipient.balance += amount;
+        cout << "Transfer successful " << endl;
+    }
+    }
+    void checkBalance(){
+    cout <<"ur balance is : "<< this->balance<<endl;
+    }
+    void info(){
+    cout<<"hello "<<this->name<<endl;
+    cout<<"ur id is : "<<this->id<<endl;
+    cout<<"password "<<this->password<<endl;
+    cout <<"ur balance is : "<< this->balance<<endl;
+    }
+};
+
+
+
+
+
+
+int main()
+{
+    double balance=0,trans;
+    int chose,id_person;
+    double deposit=0,withdraw=0;
+    int id=0;
+    string password,name,n;
+      while(true){
+        cout<<"enter ur name : ";
+        getline(cin,name);
+        bool check=true;
+        for (int i=0;i<name.size();i++){
+            if (!((name[i] >= 'A' && name[i] <= 'Z') || (name[i] >= 'a' && name[i] <= 'z')|| name[i]== ' ')){
+               check=false;
+                 break;
+        }
+
+
+        }
+
+        if(check != true){
+            cout<<"enter only characters."<<endl;
+
+        }
+        else if(name.length() <5){
+            cout<<"Name must be greater than five characters."<<endl;
+        }
+        else if (name.length() >20){
+            cout<<"Name must be less than 20 characters"<<endl;
+        }
+        else {
+            break;
+        }
+        }
+
+    while (true){
+        cout<<"enter ur password : ";
+        getline(cin ,password);
+
+        if(password.length()<4){
+            cout<<"Please enter more than 4 numbers"<<endl;
+        }
+        else if (password.length()>20){
+           cout<<"Please enter less than 21 numbers"<<endl;
+        }
+        else {
+
+            break;
+        }
+
+    };
+    cout<<"enter ur id : "<<endl;
+    cin>>id;
+        cout<<"enter ur balance :";
+        while(true){
+            cin>>balance;
+            if (balance>=1500){
+                break;
+            }
+            else if (balance<1500) {
+                cout<<"u shoud enter more than 1500"<<endl;
+
+            }
+        }
+
+    client a1;
+    a1.set_password(password);
+    a1.set_name(name);
+    a1.set_balance(balance);
+    a1.set_id(id);
+    a1.login();
+
+
+   for (;10>5;){
+    cout<<"Choose a specific service "<<endl;
+    cout<<"Press \"1\" to select the deposit service"<<endl;
+    cout<<"Press \"2\" to select the withdrawal service"<<endl;
+    cout<<"Press \"3\" to transfer a specific amount of money to a customer"<<endl;
+    cout<<"Press \"4\" to view the current balance."<<endl;
+    cout<<"Press \"5\" to view your information"<<endl;
+    cout << "Press '0' to exit" << endl;
+
+     cin>>chose;
+
+    if(chose==1){
+        cout<<"Enter the amount you want to deposit :";
+        cin>>deposit;
+        a1.deposit(deposit);
+    }
+    else if(chose==2){
+        cout<<"Enter the amount you want to withdraw :";
+        cin>>withdraw;
+        a1.withdraw(withdraw);
+    }
+    else if(chose==3){
+    cout<<"Enter the amount you want to transfer : ";
+    cin>>trans;
+    client test;
+    test.set_name("ali");
+    a1.transferTo(trans,test);
+    }
+    else if(chose==4){
+         a1.checkBalance();
+    }
+    else if (chose==5){
+    a1.info();
+    }
+    else if (chose == 0) {
+        cout << "Thank you for using our service. Goodbye!" << endl;
+        break;}
+
+    char again;
+    cout << "\nDo you want to perform another transaction? (y/n): ";
+    cin >> again;
+
+    if (again == 'n' || again == 'N') {
+        cout << "Thank you for using our service. Goodbye!" << endl;
+        break;
+    }
+
+    }
+
+    return 0;
+}
+
+

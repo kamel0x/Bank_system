@@ -14,7 +14,7 @@ public:
     }
 };
 
-class Employee{
+class Employee :public Client{
 private:
     int id;
     string name;

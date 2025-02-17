@@ -1,15 +1,15 @@
 #include <iostream>
 
 using namespace std;
-//kamal bahaa 
-class client{
+// kamel bahaa
+class Client{
 protected :
     int id;
     string password;
     string name;
     double balance;
 public :
-    client(){
+    Client(){
     id =0;
     balance=0;
     }
@@ -44,13 +44,15 @@ public :
     int count =3;
     for (int i=0;i<3;i++){
 
+    cout<<"enter ur name : ";
+
+    cin>>input_name;
+
+
     cout<<"enter ur password : ";
 
     cin>>input_password;
 
-    cout<<"enter ur name : ";
-
-    cin>>input_name;
 
     if (input_password == get_password()&& input_name ==get_name()){
 
@@ -91,7 +93,7 @@ public :
     cout<<"u withdraw an amount of : "<<amount<<endl;
     cout<<"ur balance after withdraw is : "<<this->balance<<endl;
     }
-    void transferTo(double amount,client& recipient){
+    void transferTo(double amount,Client& recipient){
      if (amount > balance) {
         cout << "Insufficient balance! Transfer failed." << endl;
     } else {
@@ -167,7 +169,7 @@ int main()
         }
 
     };
-    cout<<"enter ur id : "<<endl;
+    cout<<"enter ur id : ";
     cin>>id;
         cout<<"enter ur balance :";
         while(true){
@@ -181,7 +183,7 @@ int main()
             }
         }
 
-    client a1;
+    Client a1;
     a1.set_password(password);
     a1.set_name(name);
     a1.set_balance(balance);
@@ -213,7 +215,7 @@ int main()
     else if(chose==3){
     cout<<"Enter the amount you want to transfer : ";
     cin>>trans;
-    client test;
+    Client test;
     test.set_name("ali");
     a1.transferTo(trans,test);
     }
